@@ -12,21 +12,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          path: ImthihaniFE  # Set the path to your desired working directory
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 14
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: ImthihaniFE/frontend  # Adjust the path accordingly
-
-      - name: Build
-        run: npm run build
-        working-directory: ImthihaniFE/frontend  # Adjust the path accordingly
+      - name: Install dependencies and build
+        run: |
+          cd ImthihaniFE/frontend  # Adjust the path accordingly
+          npm install
+          npm run build
 
   deploy:
     runs-on: ubuntu-latest
