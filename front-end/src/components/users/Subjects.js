@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ToastProvider, useToasts } from 'react-toast-notifications';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import QuizGame from './GameController';
 import PointsDisplay from './PointsDisplay';
 
@@ -34,8 +35,7 @@ const Subjects = () => {
     localStorage.setItem('quizScore', newScore);
 
   };
-  const { addToast } = useToasts();
-
+ 
   const imgese = {
     Biology: biologyImage,
     History: historyImage,
@@ -95,7 +95,7 @@ const Subjects = () => {
      
       } catch (error) {
         console.error('Error fetching questions:', error);
-        addToast('Error fetching questions. Please try again.', { appearance: 'error' });
+        toast.error('Error fetching questions. Please try again.');
       }
     };
     fetchQuestions();
@@ -119,10 +119,7 @@ const Subjects = () => {
   return (
     <div className="lisse relative min-h-screen text-center bg-opacity-70 bg-black">
       {isPlay ? (
-        <ToastProvider>
-        
         <QuizGame onGameEnd={updateScore} />
-      </ToastProvider>
       ) : (
         <div className='subect-block'>
           <div className="absolute top-1 left-1">
@@ -177,6 +174,7 @@ const Subjects = () => {
           </Modal>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };

@@ -6,7 +6,6 @@ import QuizImage from './../../assets/quizz.png';
 import FlagImage from './../../assets/quizze.png';
 import './LandingBar.css';
 import Subjects from './Subjects';
-import { ToastProvider } from 'react-toast-notifications';
 
 const LandingBar = ({ buttonClickSound, isMuted }) => {
   const [userName, setUserName] = useState('');
@@ -71,14 +70,14 @@ const LandingBar = ({ buttonClickSound, isMuted }) => {
   return (
     <>
       {continueToSubjects ? (
-        <ToastProvider>
+
 
         <div className="relative flex flex-col items-center justify-center h-screen text-center block-subject">
           < Subjects 
             className='subject w-full h-screen text-center bg-opacity-70 bg-black '
           />
         </div>
-        </ToastProvider>
+
     ) : (
     <div className="relative flex flex-col items-center justify-center h-screen text-center bg-opacity-70 bg-black">
       <div className="relative z-10 text-white p-4 mt-10 md:p-8 lg:mt-8 xl:mt-8 h-screen">

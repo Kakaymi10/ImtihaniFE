@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useToasts } from 'react-toast-notifications';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Countdown from 'react-countdown-now';
 import winSound from './../../assets/win.mp3';
 import zaamaSound from './../../assets/zaama.mp3';
@@ -13,7 +14,7 @@ import './LandingBar.css';
 import PointsDisplay from './PointsDisplay';
 
 const QuizGame = ({ onGameEnd }) => {
-  const { addToast } = useToasts();
+
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -23,7 +24,7 @@ const QuizGame = ({ onGameEnd }) => {
   const [playCheersSound, setPlayCheersSound] = useState(false);
   const [isGameInProgress, setIsGameInProgress] = useState(true);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [isRotated, setIsRotated] = useState(false);
+
   const [playSlideSound, setPlaySlideSound] = useState(false);
   const [playWinSound, setPlayWinSound] = useState(false);
   const [playZaamaSound, setPlayZaamaSound] = useState(false);
@@ -161,12 +162,12 @@ const QuizGame = ({ onGameEnd }) => {
       if (isCorrect) {
         setScore((prevScore) => prevScore + remainingTime);
         setPlayCheersSound(true);
-        addToast('Correct Answer! 🎉', { appearance: 'success', autoDismiss: true, autoDismissTimeout: 2000 });
+        toast.success('Correct Answer! 🎉', { autoClose: 2000 });
       } else {
         const randomSound = sounds[count % sounds.length];
         randomSound();
         setCount((prevCount) => prevCount + 1);
-        addToast('Wrong Answer! 😞', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
+        toast.error('Wrong Answer! 😞', { autoClose: 3000 });
       }
   
       setTimeout(() => {
@@ -244,6 +245,7 @@ const QuizGame = ({ onGameEnd }) => {
 
   return (
     <div className="pt-32  bg-opacity-70 p-2 relative quizz">
+      <ToastContainer />
       <div className="absolute top-1 left-1 mb-10">
         <PointsDisplay points={score} />
       </div>
