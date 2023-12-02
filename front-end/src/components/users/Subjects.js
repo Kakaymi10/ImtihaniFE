@@ -37,9 +37,9 @@ const Subjects = () => {
   };
  
   const imgese = {
-    Biology: biologyImage,
+    Biologie: biologyImage,
     History: historyImage,
-    Geography: geographyImage,
+    Geographie: geographyImage,
     Science: scienceImage,
     Physics: scienceImage,
     "General Culture": geographyImage,
