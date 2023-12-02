@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies and build
         run: |
-          cd ImthihaniFE/frontend  # Adjust the path accordingly
+          cd frontend  # Adjust the path accordingly
           npm install
           npm run build
 
@@ -29,8 +29,12 @@ jobs:
     needs: build
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ImthihaniFE/frontend/dist  # Adjust the path accordingly
+          publish_dir: frontend/dist  # Adjust the path accordingly
+
