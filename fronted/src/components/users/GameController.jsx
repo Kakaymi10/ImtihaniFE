@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useToasts } from 'react-toast-notifications';
 import Countdown from 'react-countdown-now';
-import Sound from 'react-sound';
 import winSound from './../../assets/win.mp3';
 import zaamaSound from './../../assets/zaama.mp3';
 import mahmaSong from './../../assets/mahma.mp3';
@@ -46,11 +45,72 @@ const QuizGame = ({ onGameEnd }) => {
   const [startCelebration, setStartCelebration] = useState(false);
   const questions = localStorage.getItem('questions') ? JSON.parse(localStorage.getItem('questions')) : [];
   const [count, setCount] = useState(0);
-  const sounds = [
-    () => setPlayAzabaSound(true),
-    () => setPlayZaamaSound(true),
-    () => setPlaySorrySound(true),
-  ];
+
+
+  const winAudio = new Audio(winSound);
+  const zaamaAudio = new Audio(zaamaSound);
+  const mahmaAudio = new Audio(mahmaSong);
+  const azabaAudio = new Audio(azabaSong);
+  const wrongAudio = new Audio(wrongSound);
+  const correctAudio = new Audio(correctSound);
+  const slideAudio = new Audio(slideSound);
+
+  const sounds = [() => setPlaySorrySound(true), () => setPlayZaamaSound(true), () => setPlayAzabaSound(true)];
+
+  useEffect(() => {
+    if (playSlideSound) {
+      slideAudio.play();
+      setTimeout(() => {
+        setPlaySlideSound(false);
+      }, 1000);
+    }
+  }, [playSlideSound]);
+
+  
+  useEffect(() => {
+    // Play win sound when start celebration
+    if (startCelebration && playWinSound) {
+      winAudio.play();
+    }
+  }, [startCelebration, playWinSound]);
+
+  useEffect(() => {
+    // Play mahma sound
+    if (playMahmaSound) {
+      mahmaAudio.play();
+      setTimeout(() => {
+        setPlayMahmaSound(false);
+      }, 15000);
+    }
+  }, [playMahmaSound]);
+
+  useEffect(() => {
+    // Play other sounds based on conditions
+    if (playCheersSound) {
+      correctAudio.play();
+      setTimeout(() => {
+        setPlayCheersSound(false);
+      }, 6000);
+    } else if (playSorrySound) {
+      wrongAudio.play();
+      setTimeout(() => {
+        setPlaySorrySound(false);
+      }, 3000);
+      // Add code to play the sorry sound
+    } else if (playAzabaSound) {
+      // Add code to play the azaba sound
+      azabaAudio.play();
+      setTimeout(() => {
+        setPlayAzabaSound(false);
+      }, 3000);
+    } else if (playZaamaSound) {
+      // Add code to play the zaama sound
+      zaamaAudio.play();
+      setTimeout(() => {
+        setPlayZaamaSound(false);
+      }, 3000);
+    }
+  }, [playCheersSound, playSorrySound, playAzabaSound, playZaamaSound]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -66,27 +126,24 @@ const QuizGame = ({ onGameEnd }) => {
 
   useEffect(() => {
     if (!isGameInProgress) {
-      localStorage.setItem('quizScore', score.toString());
+      const storedScore = localStorage.getItem('quizScore');
+      localStorage.setItem('quizScore', storedScore + score );
       setConfettiConfig({
         ...confettiConfig,
         colors: ['#00ff00'],
       });
       if (score > 60) {
-        
         setPlayWinSound(true);
-        
         setStartCelebration(true);
-       
       } else if (score >= 40 && score <= 60) {
         setPlayMahmaSound(true);
         setTimeout(() => {
           setPlayMahmaSound(false);
-      
         }, 15000);
       } else {
         setPlayMahmaSound(true);
         setTimeout(() => {
-          setPlayMahmaSound
+          setPlayMahmaSound(false);
         }, 15000);
       }
     }
@@ -94,10 +151,6 @@ const QuizGame = ({ onGameEnd }) => {
 
   useEffect(() => {
     if (startCelebration) {
-      // Add logic here to start songs and confetti when startCelebration is true
-      // For example, you can use additional state variables to control the playback
-      // You might need to use libraries or custom logic for playing songs and confetti
-      // Example:
       setShowConfetti(true);
       setPlayCheersSound(true);
     }
@@ -113,9 +166,9 @@ const QuizGame = ({ onGameEnd }) => {
         const randomSound = sounds[count % sounds.length];
         randomSound();
         setCount((prevCount) => prevCount + 1);
-        addToast('Wrong Answer! 😞', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 2000 });
+        addToast('Wrong Answer! 😞', { appearance: 'error', autoDismiss: true, autoDismissTimeout: 3000 });
       }
-
+  
       setTimeout(() => {
         setSelectedAnswer(null);
         setPlayCheersSound(false);
@@ -124,10 +177,11 @@ const QuizGame = ({ onGameEnd }) => {
         setPlayZaamaSound(false);
         moveToNextQuestion();
       }, 6000);
-
+  
       setSelectedAnswer(selectedOption);
     }
   };
+  
 
   const moveToNextQuestion = () => {
     if (currentQuestionIndex + 1 === 5) {
@@ -136,15 +190,16 @@ const QuizGame = ({ onGameEnd }) => {
       if (selectedAnswer === null) {
         setPlaySlideSound(true);
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-        setRemainingTime(20);
-
+          setRemainingTime(20);
         setTimeout(() => {
+          
           setPlaySlideSound(false);
-        }, 1000);
+        }, 5000);
       }
     }
   };
   
+
   const openConfirmationModal = () => {
     setIsConfirmationModalOpen(true);
   };
@@ -164,65 +219,37 @@ const QuizGame = ({ onGameEnd }) => {
   const play = () => {
     setCurrentQuestionIndex(0);
     setIsGameInProgress(true);
-    window.location.reload();
+    setPlayWinSound(false);
+    setPlayMahmaSound(false);
+    setPlayAzabaSound(false);
+    setPlayZaamaSound(false);
+    setPlayCheersSound(false);
+    setPlaySorrySound(false);
+    // Reset other state variables
+  
   };
-
+  
   const endGame = () => {
-    localStorage.setItem('quizScore', score.toString());
     localStorage.removeItem('questions');
     localStorage.setItem('isPlay', 'false');
-    onGameEnd(score); // Call the callback function to update the score in the parent <component></component>
+    onGameEnd(score);
+    // Reset other state variables
     window.location.reload();
-  };
 
+   
+  };
   const renderer = ({ seconds }) => (
     <div className="timer text-xl">Time Left: {seconds}s</div>
   );
 
   return (
     <div className="pt-10  bg-opacity-70 p-2 relative quizz">
-      <Sound
-        url={playSorrySound ? wrongSound : null}
-        playStatus={playSorrySound ? Sound.status.PLAYING : Sound.status.STOPPED}
-        onFinishedPlaying={() => setPlaySorrySound(false)}
-      />
-      <Sound
-        url={playCheersSound ? correctSound : null}
-        playStatus={playCheersSound ? Sound.status.PLAYING : Sound.status.STOPPED}
-        onFinishedPlaying={() => setPlayCheersSound(false)}
-      />
-      <Sound
-        url={playSlideSound ? slideSound : null}
-        playStatus={playSlideSound ? Sound.status.PLAYING : Sound.status.STOPPED}
-        onFinishedPlaying={() => setPlaySlideSound(false)}
-      />
-      <Sound
-        url={playWinSound ? winSound : null}
-        playStatus={playWinSound ? Sound.status.PLAYING : Sound.status.STOPPED}
-        onFinishedPlaying={() => setPlaySlideSound(false)}
-      />
-      <Sound
-        url={playMahmaSound ? mahmaSong : null}
-        playStatus={playMahmaSound ? Sound.status.PLAYING : Sound.status.STOPPED}
-        onFinishedPlaying={() => setPlaySlideSound(false)}
-      />
-      <Sound
-        url={playZaamaSound ? zaamaSound : null}
-        playStatus={playZaamaSound ? Sound.status.PLAYING : Sound.status.STOPPED}
-        onFinishedPlaying={() => setPlaySlideSound(false)}
-      />
-      <Sound
-        url={ playAzabaSound? azabaSong : null}
-        playStatus={playAzabaSound? Sound.status.PLAYING : Sound.status.STOPPED}
-        onFinishedPlaying={() => setPlaySlideSound(false)}
-      />
       <div className="absolute top-1 left-1 mb-10">
-          <PointsDisplay points={score} />
-        </div>
+        <PointsDisplay points={score} />
+      </div>
 
       {questions.length > 0 && currentQuestionIndex < questions.length && isGameInProgress && (
         <div className={`border rounded-lg question p-2 mt-20 bg-red-200 bg-opacity-10 ${selectedAnswer !== null ? 'slide-out' : 'slide-in'}`}>
-          
           <h2 className="text-2xl font-bold mb-5 quest">{questions[currentQuestionIndex].question}</h2>
           <div className="grid grid-cols-2 gap-4">
             {questions[currentQuestionIndex].answers &&

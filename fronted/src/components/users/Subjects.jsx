@@ -25,12 +25,14 @@ const Subjects = () => {
   const [isplay, setIsPlay] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState(null);
   const isPlay = JSON.parse(localStorage.getItem('isPlay'));
-  const [quizScore, setQuizScore] = useState(0);
-
+  
+  
 
   const userName = localStorage.getItem('userName');
   const updateScore = (newScore) => {
-    setQuizScore(newScore);
+    
+    localStorage.setItem('quizScore', newScore);
+
   };
 
   const imgese = {
@@ -49,7 +51,7 @@ const Subjects = () => {
 
     if (storedUserId && storedUserName && subjects.length === 0) {
       axios
-        .get('http://localhost:3000/subject/')
+        .get('https://chadlearnhib.onrender.com/subject/')
         .then((response) => {
           setSubjects(response.data);
           localStorage.setItem('subjects', JSON.stringify(response.data));
@@ -66,7 +68,7 @@ const Subjects = () => {
   
     if (storedUserId && storedUserName) {
       axios
-        .get(`http://localhost:3000/points/${storedUserName}`)
+        .get(`https://chadlearnhib.onrender.com/points/${storedUserName}`)
         .then((response) => {
           localStorage.setItem('quizScore', response.data.point);
         })
@@ -89,7 +91,7 @@ const Subjects = () => {
     setSelectedSubject(subject);
 
     const fetchQuestions = async () => {
-      const url = `http://localhost:3000/subject/${subject}`;
+      const url = `https://chadlearnhib.onrender.com/subject/${subject}`;
 
       try {
         const response = await axios.get(url);
@@ -171,7 +173,7 @@ const Subjects = () => {
               <p className="text-black">Add your subject explanation text here </p>
               <p
                 onClick={play}
-                className="play-container hover:bg-blue-500 hover:text-white mt-6 absolute bottom-2 left-1/2 transform -translate-x-1/2 mb-5 w-4/6"
+                className="play-container hover:bg-blue-500 hover:text-white mt-6 absolute bottom-2 left-1/2 transform -translate-x-1/2 mb-5 w-4/6 cursor-pointer"
               >
                 <span className="play-text">Play</span>
                 <FaPlayCircle className="play-icon  cursor-pointer" />

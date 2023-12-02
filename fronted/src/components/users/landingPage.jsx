@@ -42,7 +42,7 @@ const LandingBar = ({ buttonClickSound, isMuted }) => {
         throw new Error('Username cannot be empty.');
       }
 
-      const apiUrl = 'http://localhost:3000/user';
+      const apiUrl = 'https://chadlearnhib.onrender.com/user';
       const response = await axios.post(apiUrl, { name: userName });
 
       console.log('API response:', response.data);
