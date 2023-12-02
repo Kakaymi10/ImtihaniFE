@@ -1,0 +1,113 @@
+@keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-10px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(10px);
+    }
+  }
+  
+  .shake-error {
+    animation: shake 0.8s ease-in-out;
+    border: 2px solid red;  
+  }
+
+  .lisse{
+   width: 100vw;
+   max-width: 500px;
+   background-color: rgba(0, 0, 0, 0.3);
+   height: 100vh;
+  }
+  .sujet{
+    margin-bottom: 10px;
+  }
+  
+
+/* Add or update these styles in your CSS file */
+.modal-content {
+  position: absolute;
+  width: 100%;
+  height: 50vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 1); /* Adjust background color as needed */
+  padding: 20px;
+  max-width: 80%; /* Adjust the maximum width as needed */
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust overlay background color and transparency as needed */
+}
+
+/* Add these styles to your CSS file */
+.play-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3182ce; /* Adjust the text color as needed */
+  border: 2px solid #a0aec0; /* Adjust the border color as needed */
+  padding: 2px;
+  border-radius: 8px;
+}
+
+.play-text {
+   /* Adjust the border radius as needed */
+   font-weight: 700;
+}
+
+.play-icon {
+  font-size: 2rem; /* Adjust the icon size as needed */
+  margin-left: 8px; /* Adjust the space between text and icon as needed */
+}
+
+.questions{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+ padding: 3px;
+ max-width: 100vw
+}
+.question{
+  min-width: 300px;
+  margin: 0 auto;
+
+}
+.answer{
+  min-width: 130px;
+}
+
+.quest{
+  min-height: 15vh;
+  margin-top: 4vh;
+}
+
+/* Add these styles to your CSS */
+.slide-in {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.slide-out {
+  opacity: 1;
+  transform: translateX(-100%);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out 5s
+}
+.img_cont{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.subect-block{
+  padding-top: 10vh;
+}
