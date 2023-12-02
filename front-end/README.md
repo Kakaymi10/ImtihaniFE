@@ -1,9 +1,3 @@
-# Imtihani
-
-# ChadLearnHub: Accessible Learning Solutions
-# Introduction
-This repository contains the source code for ChadLearnHub, an educational software application designed to provide accessible learning solutions for Chadian students. The project aims to democratize access to educational materials, address the challenges of fragmented resources, and enhance the learning experience for students in Chad.
-
 
 # Getting Started with Create React App
 
