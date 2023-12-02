@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Adjust the branch name as needed
+      - main
 
 jobs:
   build:
@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          path: ImthihaniFE  # Set the path to your desired working directory
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -20,9 +22,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ImthihaniFE/frontend  # Adjust the path accordingly
 
       - name: Build
-        run: npm run build  # Adjust the build script as needed
+        run: npm run build
+        working-directory: ImthihaniFE/frontend  # Adjust the path accordingly
 
   deploy:
     runs-on: ubuntu-latest
@@ -33,4 +37,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist  # Adjust the output directory based on your Vite configuration
+          publish_dir: ImthihaniFE/frontend/dist  # Adjust the path accordingly
