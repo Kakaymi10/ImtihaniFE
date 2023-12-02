@@ -20,9 +20,8 @@ jobs:
 
       - name: Install dependencies and build
         run: |
-          cd frontend  # Adjust the path accordingly
-          npm install
-          npm run build
+          npm ci --prefix ImtihaniFE/frontend  # Adjust the path accordingly
+          npm run build --prefix ImtihaniFE/frontend  # Adjust the path accordingly
 
   deploy:
     runs-on: ubuntu-latest
@@ -36,5 +35,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: frontend/dist  # Adjust the path accordingly
-
+          publish_dir: ImtihaniFE/frontend/dist  # Adjust the path accordingly
