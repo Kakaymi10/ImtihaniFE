@@ -56,11 +56,11 @@ const LandingBar = ({ buttonClickSound, isMuted }) => {
 
       // Display toast messages for different error scenarios
       if (error.response && error.response.status === 400) {
-        toast.error('User with the same name already exists.');
+        toast.error(error.response.data.message);
       } else if (error.response && error.response.status === 500) {
-        toast.error('Internal server error. Please try again later.');
+        toast.error(error.response.data.message);
       } else {
-        toast.error('Network error. Please check your internet connection.');
+        toast.error(error.message);
       }
     }
 
@@ -74,6 +74,7 @@ const LandingBar = ({ buttonClickSound, isMuted }) => {
 
         <div className="relative flex flex-col items-center justify-center h-screen text-center block-subject">
           < Subjects 
+          isMuted={isMuted}
             className='subject w-full h-screen text-center bg-opacity-70 bg-black '
           />
         </div>
@@ -85,7 +86,7 @@ const LandingBar = ({ buttonClickSound, isMuted }) => {
           Imtihani
         </h1>
         <h4 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-4 md:mb-8 lg:mb-0  rounded animate__animated animate__bounceIn">
-          Unleash your inner quizmaster! Answer right, hear cheers. Answer wrong, get ready for a goat's hilarious 'baa-dum-tss'! Let the quiz games begin! 🎉🧠
+        Libérez le maître du quiz qui sommeille en vous ! Répondez correctement, entendez les acclamations. Répondez incorrectement, préparez-vous à un hilarant 'baa-dum-tss' de chèvre ! Que les jeux de quiz commencent ! 🎉🧠
         </h4>
         <div className="flex justify-center">
           <img

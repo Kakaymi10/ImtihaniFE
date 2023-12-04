@@ -16,7 +16,7 @@ import geographyImage from '../../assets/geography.png';
 import scienceImage from '../../assets/science.png';
 Modal.setAppElement('#root');
 
-const Subjects = () => {
+const Subjects = ({isMuted}) => {
 
   const [subjects, setSubjects] = useState(() => {
     const storedSubjects = JSON.parse(localStorage.getItem('subjects'));
@@ -119,16 +119,18 @@ const Subjects = () => {
   return (
     <div className="lisse relative min-h-screen text-center bg-opacity-70 bg-black">
       {isPlay ? (
-        <QuizGame onGameEnd={updateScore} />
+        <QuizGame onGameEnd={updateScore} 
+        isMuted={isMuted}
+        />
       ) : (
         <div className='subect-block'>
           <div className="absolute top-1 left-1">
             <PointsDisplay points={points} />
           </div>
           <div className="flex-col transform justify-center h-full p-4 pt-0 text-white subjects">
-            <h1 className="text-3xl font-bold mb-4">Welcome {userName}!</h1>
+            <h1 className="text-3xl font-bold mb-4">Bienvenue {userName}!</h1>
             <div className="">
-              <h2 className="text-2xl font-bold mb-4">Choose a subject:</h2>
+              <h2 className="text-2xl font-bold mb-4">Choisissew un sujet:</h2>
               <Carousel>
                 {subjects.map((subject) => (
                   <div

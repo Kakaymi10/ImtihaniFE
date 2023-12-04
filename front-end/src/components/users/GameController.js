@@ -13,7 +13,7 @@ import Confetti from 'react-dom-confetti';
 import './LandingBar.css';
 import PointsDisplay from './PointsDisplay';
 
-const QuizGame = ({ onGameEnd }) => {
+const QuizGame = ({ onGameEnd, isMuted }) => {
 
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -59,7 +59,7 @@ const QuizGame = ({ onGameEnd }) => {
   const sounds = [() => setPlaySorrySound(true), () => setPlayZaamaSound(true), () => setPlayAzabaSound(true)];
 
   useEffect(() => {
-    if (playSlideSound) {
+    if (playSlideSound && !isMuted) {
       slideAudio.play();
       setTimeout(() => {
         setPlaySlideSound(false);
@@ -70,14 +70,14 @@ const QuizGame = ({ onGameEnd }) => {
   
   useEffect(() => {
     // Play win sound when start celebration
-    if (startCelebration && playWinSound) {
+    if (startCelebration && playWinSound && !isMuted) {
       winAudio.play();
     }
   }, [startCelebration, playWinSound]);
 
   useEffect(() => {
     // Play mahma sound
-    if (playMahmaSound) {
+    if (playMahmaSound && !isMuted) {
       mahmaAudio.play();
       setTimeout(() => {
         setPlayMahmaSound(false);
@@ -87,24 +87,24 @@ const QuizGame = ({ onGameEnd }) => {
 
   useEffect(() => {
     // Play other sounds based on conditions
-    if (playCheersSound) {
+    if (playCheersSound && !isMuted) {
       correctAudio.play();
       setTimeout(() => {
         setPlayCheersSound(false);
       }, 6000);
-    } else if (playSorrySound) {
+    } else if (playSorrySound && !isMuted) {
       wrongAudio.play();
       setTimeout(() => {
         setPlaySorrySound(false);
       }, 3000);
       // Add code to play the sorry sound
-    } else if (playAzabaSound) {
+    } else if (playAzabaSound && !isMuted) {
       // Add code to play the azaba sound
       azabaAudio.play();
       setTimeout(() => {
         setPlayAzabaSound(false);
       }, 3000);
-    } else if (playZaamaSound) {
+    } else if (playZaamaSound && !isMuted) {
       // Add code to play the zaama sound
       zaamaAudio.play();
       setTimeout(() => {
@@ -151,9 +151,11 @@ const QuizGame = ({ onGameEnd }) => {
   }, [isGameInProgress, score]);
 
   useEffect(() => {
-    if (startCelebration) {
+    if (startCelebration && !isMuted) {
       setShowConfetti(true);
       setPlayCheersSound(true);
+    } else if (startCelebration && isMuted) {
+      setShowConfetti(true);
     }
   }, [startCelebration]);
 
@@ -240,7 +242,7 @@ const QuizGame = ({ onGameEnd }) => {
    
   };
   const renderer = ({ seconds }) => (
-    <div className="timer text-xl">Time Left: {seconds}s</div>
+    <div className="timer text-xl">Temps restant: {seconds}s</div>
   );
 
   return (
@@ -276,7 +278,7 @@ const QuizGame = ({ onGameEnd }) => {
             <Countdown date={Date.now() + remainingTime * 1000} renderer={renderer} onComplete={moveToNextQuestion} />
           </div>
           <button className="mt-4 p-2 bg-yellow-500 text-white rounded" onClick={openConfirmationModal}>
-            Exit Game
+            Terminer
           </button>
         </div>
       )}
@@ -284,18 +286,18 @@ const QuizGame = ({ onGameEnd }) => {
       {!isGameInProgress && (
         <div className={`slide-in`}>
           <Confetti active={showConfetti} config={confettiConfig} />
-          <h2 className="text-2xl font-bold mb-4">Quiz Completed!</h2>
+          <h2 className="text-2xl font-bold mb-4">Quiz terminé !</h2>
           <p className="text-xl">Your Score: {score}</p>
           <button className="mt-4 p-3 bg-yellow-500 text-white rounded" onClick={endGame}>
-            Exit Game
+            Terminer
           </button>
           <button className="mt-4 p-3 bg-green-500 text-white rounded ml-4" onClick={play}>
-            Play Again
+            Rejouer
           </button>
           <div className="mt-4">
-            <p className="text-xl">We hope you enjoyed the game!</p>
-            <p className="text-xl">Please share your feedback with us.</p>
-            <p className="text-xl">We would love to hear from you!</p>
+            <p className="text-xl">Nous espérons que vous avez apprécié le jeu !</p>
+            <p className="text-xl">Veuillez partager vos commentaires avec nous.</p>
+            <p className="text-xl">Nous serions ravis d’avoir de vos nouvelles !</p>
 
             <div className="flex justify-center mt-4">
               <a href="https://80r1ekn4sl4.typeform.com/to/PIrCscKl" target="_blank" rel="noopener noreferrer">
@@ -309,7 +311,7 @@ const QuizGame = ({ onGameEnd }) => {
       {isConfirmationModalOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded shadow-lg">
-            <p className="text-xl mb-4 text-black">Are you sure you want to exit the game?</p>
+            <p className="text-xl mb-4 text-black">Êtes-vous sûr de vouloir quitter le jeu?</p>
             <div className="flex justify-end">
               <button className="p-2 bg-red-500 text-white rounded mr-2" onClick={() => confirmExitGame(true)}>
                 Yes
