@@ -110,7 +110,7 @@ const LandingBar = ({ buttonClickSound, isMuted }) => {
 
         <div>
           <button
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 w-full md:w-auto cursor-pointer"
+            className="bg-green-500 text-white px-4 py-2 mb-10 rounded-md hover:bg-green-700 w-full md:w-auto cursor-pointer"
             onClick={handleContinueClick}
           >
             {spinner ? (

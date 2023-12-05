@@ -47,7 +47,7 @@ function App() {
   
   return (
     <Router>
-      <div className='bg-gradient-to-br from-blue-500 via-yellow-500 to-red-500 w-full'>
+      <div className='bg-gradient-to-br from-blue-500 via-yellow-500 to-red-500 w-full app'>
         <audio ref={audioRef} loop>
           <source src={backgroundAudio} type="audio/mp3" />
         </audio>
